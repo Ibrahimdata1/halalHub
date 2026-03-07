@@ -6,6 +6,7 @@ import { CATEGORY_GROUPS } from "@/data/categoryTaxonomy"
 import { SupplierCard } from "@/components/ui/SupplierCard"
 
 const REGIONS = ["ทุกภาค", "ภาคเหนือ", "ภาคกลาง", "ภาคตะวันออก", "ภาคตะวันออกเฉียงเหนือ", "ภาคใต้"]
+const S = { input: { padding: "9px 14px", fontSize: 13, fontFamily: "inherit", borderRadius: 10 } as React.CSSProperties }
 
 export default function SuppliersPage() {
   const [region, setRegion] = useState("ทุกภาค")
@@ -21,99 +22,75 @@ export default function SuppliersPage() {
     return true
   })
 
-  const inputStyle = { padding: "10px 14px", fontSize: 13, fontFamily: "inherit" }
-
   return (
-    <div className="max-w-7xl mx-auto px-6 py-10">
+    <div style={{ maxWidth: 1280, margin: "0 auto", padding: "48px 24px" }}>
       {/* Header */}
-      <div className="mb-8">
-        <div className="hh-eyebrow mb-3 w-fit">Halal B2B Supplier Directory</div>
-        <h1 className="text-3xl font-bold" style={{ color: "var(--hh-text-primary)" }}>ซัพพลายเออร์ Halal</h1>
-        <p className="text-sm mt-1" style={{ color: "var(--hh-text-secondary)" }}>
-          B2B directory ที่ค้นหาได้ พร้อม Auto-Matching เร็วๆ นี้
-        </p>
+      <div style={{ marginBottom: 40 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+          <span className="arabic" style={{ fontSize: 13, color: "var(--text-3)" }}>الموردون الحلال</span>
+          <span style={{ width: 32, height: 1, background: "var(--border)" }} />
+          <span className="mono" style={{ fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em" }}>HALAL SUPPLIERS</span>
+        </div>
+        <h1 style={{ fontWeight: 800, fontSize: 40, color: "var(--text-1)", margin: 0, fontFamily: "var(--font-thai)", letterSpacing: "-0.02em" }}>ซัพพลายเออร์<span style={{ color: "#D4A017" }}>ฮาลาล</span></h1>
+        <p style={{ marginTop: 8, color: "var(--text-2)", fontFamily: "var(--font-thai)", fontSize: 14 }}>B2B directory ที่ค้นหาได้ — Auto-Matching เปิดเมื่อมี 30+ suppliers</p>
       </div>
 
       {/* Filter bar */}
-      <div
-        className="rounded-xl p-5 mb-8 flex flex-wrap gap-4 items-end"
-        style={{
-          backgroundColor: "var(--hh-bg-surface)",
-          border: "1px solid var(--hh-border-subtle)",
-          borderLeft: "3px solid var(--hh-gold-400)",
-        }}
-      >
-        <div>
-          <label className="block text-xs font-medium mb-1.5" style={{ color: "var(--hh-text-muted)" }}>ค้นหา</label>
-          <input
-            type="text"
-            placeholder="ชื่อซัพพลายเออร์..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="hh-input w-44"
-            style={inputStyle}
-          />
+      <div className="win-card" style={{ borderRadius: 12, marginBottom: 32, borderLeft: "3px solid #4ADE80" }}>
+        <div style={{ padding: "16px 20px", display: "flex", flexWrap: "wrap", gap: 16, alignItems: "flex-end" }}>
+          <div>
+            <div className="mono" style={{ fontSize: 10, color: "var(--text-3)", marginBottom: 6, letterSpacing: "0.06em" }}>SEARCH</div>
+            <input type="text" placeholder="ชื่อซัพพลายเออร์..." value={search} onChange={(e) => setSearch(e.target.value)} className="hh-input" style={{ ...S.input, width: 180 }} />
+          </div>
+          <div>
+            <div className="mono" style={{ fontSize: 10, color: "var(--text-3)", marginBottom: 6, letterSpacing: "0.06em" }}>CATEGORY</div>
+            <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} className="hh-input" style={{ ...S.input, width: 180 }}>
+              <option value="all">ทุกหมวด</option>
+              {CATEGORY_GROUPS.map((g) => (
+                <optgroup key={g.id} label={g.label}>
+                  {g.categories.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}
+                </optgroup>
+              ))}
+            </select>
+          </div>
+          <div>
+            <div className="mono" style={{ fontSize: 10, color: "var(--text-3)", marginBottom: 6, letterSpacing: "0.06em" }}>REGION</div>
+            <select value={region} onChange={(e) => setRegion(e.target.value)} className="hh-input" style={{ ...S.input, width: 160 }}>
+              {REGIONS.map((r) => <option key={r}>{r}</option>)}
+            </select>
+          </div>
+          <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: 13, color: "var(--text-2)", fontFamily: "var(--font-thai)" }}>
+            <input type="checkbox" checked={verifiedOnly} onChange={(e) => setVerifiedOnly(e.target.checked)} style={{ width: 15, height: 15, accentColor: "#4ADE80" }} />
+            Verified เท่านั้น
+          </label>
+          <span className="mono badge-green" style={{ marginLeft: "auto", padding: "4px 12px", borderRadius: 999, fontSize: 12 }}>{filtered.length} results</span>
         </div>
-        <div>
-          <label className="block text-xs font-medium mb-1.5" style={{ color: "var(--hh-text-muted)" }}>หมวดหมู่</label>
-          <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} className="hh-input" style={{ ...inputStyle, width: 180 }}>
-            <option value="all">ทุกหมวด</option>
-            {CATEGORY_GROUPS.map((group) => (
-              <optgroup key={group.id} label={group.label}>
-                {group.categories.map((cat) => (
-                  <option key={cat.id} value={cat.id}>{cat.label}</option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="block text-xs font-medium mb-1.5" style={{ color: "var(--hh-text-muted)" }}>ภาค</label>
-          <select value={region} onChange={(e) => setRegion(e.target.value)} className="hh-input" style={{ ...inputStyle, width: 160 }}>
-            {REGIONS.map((r) => <option key={r}>{r}</option>)}
-          </select>
-        </div>
-        <label className="flex items-center gap-2 text-sm cursor-pointer" style={{ color: "var(--hh-text-secondary)" }}>
-          <input
-            type="checkbox"
-            checked={verifiedOnly}
-            onChange={(e) => setVerifiedOnly(e.target.checked)}
-            className="w-4 h-4"
-            style={{ accentColor: "var(--hh-gold-400)" }}
-          />
-          Verified เท่านั้น
-        </label>
-        <span
-          className="ml-auto text-xs font-semibold px-3 py-1 rounded-full"
-          style={{ backgroundColor: "rgba(212,160,23,0.08)", border: "1px solid rgba(212,160,23,0.2)", color: "var(--hh-gold-300)" }}
-        >
-          {filtered.length} รายการ
-        </span>
       </div>
 
-      {/* Results */}
       {filtered.length === 0 ? (
-        <div className="text-center py-20" style={{ color: "var(--hh-text-muted)" }}>
-          <p className="text-4xl mb-3">🔍</p>
-          <p>ไม่พบซัพพลายเออร์ที่ตรงกับเงื่อนไข</p>
+        <div style={{ textAlign: "center", padding: "80px 0", color: "var(--text-3)" }}>
+          <div className="mono" style={{ fontSize: 32, marginBottom: 12 }}>// not found</div>
+          <p className="mono" style={{ fontSize: 13 }}>ไม่พบซัพพลายเออร์ที่ตรงกับเงื่อนไข</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
           {filtered.map((s) => <SupplierCard key={s.id} supplier={s} />)}
         </div>
       )}
 
       {/* Auto-matching coming soon */}
-      <div
-        className="mt-12 rounded-xl p-6 text-center"
-        style={{ backgroundColor: "var(--hh-bg-surface)", border: "1px solid rgba(212,160,23,0.15)" }}
-      >
-        <div className="hh-eyebrow mb-3 mx-auto w-fit">เร็วๆ นี้</div>
-        <h3 className="font-semibold mb-2" style={{ color: "var(--hh-text-primary)" }}>Auto-Matching</h3>
-        <p className="text-sm" style={{ color: "var(--hh-text-secondary)" }}>
-          เมื่อมีซัพพลายเออร์ครบ 30 ราย ระบบจะ match และแจ้งเตือนอัตโนมัติ
-          <br />กรอก sourcing needs ในโปรไฟล์ไว้เพื่อรับการแจ้งเตือนก่อนใคร
-        </p>
+      <div className="win-card" style={{ marginTop: 48, textAlign: "center" }}>
+        <div className="win-header" style={{ justifyContent: "center" }}>
+          <span className="win-dot-red" /><span className="win-dot-yellow" /><span className="win-dot-green" />
+          <span className="mono" style={{ fontSize: 11, color: "var(--text-3)", marginLeft: 8 }}>auto-matching.service.ts</span>
+        </div>
+        <div style={{ padding: "32px 24px" }}>
+          <div className="mono" style={{ fontSize: 13, color: "var(--text-3)", marginBottom: 8 }}>// coming soon — เปิดเมื่อมี 30+ suppliers</div>
+          <h3 style={{ fontWeight: 700, fontSize: 20, color: "var(--text-1)", margin: "0 0 8px", fontFamily: "var(--font-thai)" }}>Auto-Matching Engine</h3>
+          <p style={{ color: "var(--text-2)", fontFamily: "var(--font-thai)", fontSize: 14 }}>
+            กรอก sourcing needs ในโปรไฟล์ไว้เพื่อรับการแจ้งเตือน email ก่อนใคร
+          </p>
+        </div>
       </div>
     </div>
   )

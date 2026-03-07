@@ -3,228 +3,203 @@ import { MOCK_BUSINESSES, MOCK_SUPPLIERS } from "@/lib/mockData"
 import { BusinessCard } from "@/components/ui/BusinessCard"
 import { SupplierCard } from "@/components/ui/SupplierCard"
 
-export default function HomePage() {
-  const featuredBusinesses = MOCK_BUSINESSES.slice(0, 3)
-  const featuredSuppliers = MOCK_SUPPLIERS.slice(0, 3)
+const STATS = [
+  { key: "ธุรกิจ", value: "12,847", color: "#4ADE80", comment: "// ที่ได้รับการรับรองฮาลาล" },
+  { key: "นักลงทุน", value: "3,291", color: "#C084FC", comment: "// พร้อมลงทุน Shariah-compliant" },
+  { key: "มูลค่าตลาด", value: "฿2.4B", color: "#D4A017", comment: "// ไหลเวียนในระบบ" },
+]
 
+const SPARKLINE = [30, 45, 38, 60, 52, 75, 68, 90]
+
+export default function HomePage() {
   return (
     <div>
-      {/* ── Hero ───────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden" style={{ minHeight: 620, backgroundColor: "var(--hh-bg-base)" }}>
-        {/* Gold radial glow top-left */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 60% 50% at 10% 20%, rgba(212,160,23,0.07) 0%, transparent 70%)" }}
-        />
-        {/* Green radial glow bottom-right */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 50% 40% at 90% 80%, rgba(22,163,74,0.04) 0%, transparent 60%)" }}
-        />
-        {/* Islamic geometric pattern — top-right corner */}
-        <div
-          className="absolute top-0 right-0 w-96 h-96 pointer-events-none hh-pattern-overlay opacity-60"
-          style={{ maskImage: "radial-gradient(ellipse at top right, black 20%, transparent 70%)" }}
-        />
-        {/* Bottom fade */}
-        <div
-          className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{ background: "linear-gradient(to bottom, transparent, var(--hh-bg-base))" }}
-        />
+      {/* ══ HERO ══════════════════════════════════════════════════ */}
+      <section style={{ maxWidth: 1280, margin: "0 auto", padding: "80px 24px 100px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
 
-        <div className="relative max-w-7xl mx-auto px-6 py-24 flex flex-col lg:flex-row items-center gap-16">
-          {/* Left content */}
-          <div className="flex-1 max-w-xl">
-            {/* Eyebrow */}
-            <div className="hh-eyebrow mb-8 w-fit">
-              ☪ แพลตฟอร์มเศรษฐกิจฮาลาล · ประเทศไทย
-            </div>
+        {/* LEFT */}
+        <div>
+          {/* Bismillah label */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28 }}>
+            <span className="arabic" style={{ fontSize: 14, color: "var(--text-3)" }}>بِسْمِ اللهِ</span>
+            <span style={{ width: 40, height: 1, background: "rgba(212,160,23,0.3)" }} />
+            <span className="mono" style={{ fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em" }}>halal-marketplace.th</span>
+          </div>
 
-            {/* Headline */}
-            <h1 className="text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight mb-3" style={{ color: "var(--hh-text-primary)" }}>
-              เชื่อมธุรกิจ{" "}
-              <span className="hh-text-gradient-gold">ฮาลาล</span>
+          {/* Big headline */}
+          <div style={{ display: "flex", alignItems: "flex-start", gap: 16, marginBottom: 12 }}>
+            <span style={{ color: "#D4A017", fontWeight: 900, fontSize: "clamp(56px,7vw,88px)", lineHeight: 0.9, fontFamily: "var(--font-display)", flexShrink: 0, marginTop: 4 }}>&gt;</span>
+            <h1 style={{ fontWeight: 800, fontSize: "clamp(48px,6.5vw,80px)", lineHeight: 0.95, letterSpacing: "-0.025em", color: "var(--text-1)", fontFamily: "var(--font-thai)", margin: 0 }}>
+              ตลาด<span style={{ color: "#D4A017" }}>ฮาลาล</span>
               <br />
-              สู่อนาคตที่ยั่งยืน
+              สำหรับ
+              <br />
+              ผู้ประกอบการ<br />
+              <span style={{ color: "var(--text-3)" }}>ที่แท้จริง</span>
             </h1>
-
-            {/* Arabic subtitle */}
-            <p
-              className="text-base mb-5"
-              style={{ fontFamily: "var(--font-noto-arabic)", color: "var(--hh-text-muted)", direction: "rtl" }}
-            >
-              الاقتصاد الحلال في تايلاند
-            </p>
-
-            <p className="text-base leading-relaxed mb-10" style={{ color: "var(--hh-text-secondary)" }}>
-              เชื่อมธุรกิจฮาลาลกับซัพพลายเออร์ที่น่าเชื่อถือ
-              พนักงานมุสลิมที่เหมาะสม และนักลงทุน Halal — ฟรีในปีแรก
-            </p>
-
-            {/* CTA buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 mb-10">
-              <Link href="/review" className="hh-btn-primary px-7 py-3 text-sm text-center">
-                ลงทะเบียนธุรกิจของคุณ — ฟรี
-              </Link>
-              <Link href="/suppliers" className="hh-btn-secondary px-7 py-3 text-sm text-center">
-                หาซัพพลายเออร์ →
-              </Link>
-            </div>
-
-            {/* Social proof */}
-            <div className="flex items-center gap-3">
-              <div className="flex -space-x-2">
-                {["#D4A017", "#8B6914", "#374039", "#2A2E2B"].map((bg, i) => (
-                  <div key={i} className="w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold" style={{ backgroundColor: bg, borderColor: "var(--hh-bg-base)", color: "#F0EDE6" }}>
-                    {["ก", "บ", "ค", "ง"][i]}
-                  </div>
-                ))}
-              </div>
-              <p className="text-sm" style={{ color: "var(--hh-text-secondary)" }}>
-                ธุรกิจกว่า <span style={{ color: "var(--hh-gold-300)", fontWeight: 600 }}>200+</span> แห่งเข้าร่วมแล้ว
-              </p>
-            </div>
           </div>
 
-          {/* Right — floating card cluster */}
-          <div className="hidden lg:flex flex-1 justify-center items-center relative" style={{ height: 360 }}>
-            {/* Card back */}
-            <div className="absolute" style={{ transform: "rotate(-6deg) translateX(-20px) translateY(20px)", opacity: 0.4, width: 280 }}>
-              <BusinessCard business={MOCK_BUSINESSES[1]} />
-            </div>
-            {/* Card mid */}
-            <div className="absolute" style={{ transform: "rotate(3deg) translateX(20px)", opacity: 0.7, width: 280 }}>
-              <BusinessCard business={MOCK_BUSINESSES[2]} />
-            </div>
-            {/* Card front */}
-            <div
-              className="absolute"
-              style={{
-                width: 280,
-                boxShadow: "0 0 0 1px rgba(212,160,23,0.35), 0 24px 60px rgba(0,0,0,0.8)",
-                borderRadius: 12,
-              }}
-            >
-              <BusinessCard business={MOCK_BUSINESSES[0]} />
-            </div>
-
-            {/* Floating chip 1 */}
-            <div
-              className="absolute top-4 right-4 flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium"
-              style={{ backgroundColor: "var(--hh-bg-surface-2)", border: "1px solid var(--hh-border-default)", borderLeft: "3px solid var(--hh-halal-400)", color: "var(--hh-halal-text)" }}
-            >
-              ✓ Halal Verified
-            </div>
-            {/* Floating chip 2 */}
-            <div
-              className="absolute bottom-4 left-0 flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium"
-              style={{ backgroundColor: "rgba(212,160,23,0.08)", border: "1px solid rgba(212,160,23,0.2)", color: "var(--hh-gold-300)" }}
-            >
-              <span className="hh-pulse-dot" />
-              กำลังหานักลงทุน
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Tier Section ───────────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-6 py-16">
-        <div className="text-center mb-10">
-          <div className="hh-eyebrow mb-4 mx-auto w-fit">เกณฑ์สาธารณะ</div>
-          <h2 className="text-2xl font-bold" style={{ color: "var(--hh-text-primary)" }}>Halal Workplace Tiers</h2>
-          <p className="text-sm mt-2" style={{ color: "var(--hh-text-secondary)" }}>ผ่านเกณฑ์ → ได้ Badge ทันที ไม่มีค่าใช้จ่าย</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[
-            {
-              label: "Bronze",
-              className: "hh-badge-bronze",
-              accentColor: "#D97706",
-              criteria: ["อาหาร Halal ใน canteen", "ยืดหยุ่นวันศุกร์", "อย่างน้อย 3 จาก 5 เงื่อนไข"],
-            },
-            {
-              label: "Silver",
-              className: "hh-badge-silver",
-              accentColor: "#94A3B8",
-              criteria: ["มีห้องละหมาด", "อาหาร Halal ใน canteen", "ยืดหยุ่นวันศุกร์", "ไม่บังคับแต่งกายขัดอิสลาม"],
-            },
-            {
-              label: "Gold",
-              className: "hh-badge-gold",
-              accentColor: "#D4A017",
-              criteria: ["ครบทุกเงื่อนไข Silver", "ไม่มีแอลกอฮอล์ในกิจกรรมบริษัท"],
-            },
-          ].map((item) => (
-            <div
-              key={item.label}
-              className="hh-card p-6"
-              style={{ borderLeft: `3px solid ${item.accentColor}` }}
-            >
-              <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wide mb-4 ${item.className}`}>
-                ✦ Halal {item.label}
+          {/* Stat block */}
+          <div style={{ marginTop: 32, padding: "16px 20px", borderRadius: 12, border: "1px solid rgba(255,255,255,0.06)", background: "rgba(255,255,255,0.02)" }}>
+            {STATS.map((s) => (
+              <div key={s.key} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10, fontFamily: "var(--font-mono-var)" }}>
+                <span style={{ color: s.color, fontSize: 13 }}>{s.key}</span>
+                <span style={{ color: "var(--text-3)", fontSize: 13 }}>=</span>
+                <span style={{ color: "#D4A017", fontWeight: 700, fontSize: 22, fontFamily: "var(--font-display)" }}>{s.value}</span>
+                <span style={{ color: "var(--text-3)", fontSize: 11, marginLeft: 4 }}>{s.comment}</span>
               </div>
-              <ul className="space-y-2">
-                {item.criteria.map((c) => (
-                  <li key={c} className="flex items-start gap-2 text-sm" style={{ color: "var(--hh-text-secondary)" }}>
-                    <span className="mt-0.5 text-xs" style={{ color: item.accentColor }}>✓</span>
-                    {c}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
 
-      {/* ── Featured Businesses ────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-6 pb-16">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold" style={{ color: "var(--hh-text-primary)" }}>ธุรกิจล่าสุด</h2>
-          <Link href="/businesses" className="text-xs font-medium" style={{ color: "var(--hh-gold-300)" }}>
-            ดูทั้งหมด →
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {featuredBusinesses.map((b) => (
-            <BusinessCard key={b.id} business={b} />
-          ))}
-        </div>
-      </section>
-
-      {/* ── Featured Suppliers ─────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-6 pb-16">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold" style={{ color: "var(--hh-text-primary)" }}>ซัพพลายเออร์ Halal</h2>
-          <Link href="/suppliers" className="text-xs font-medium" style={{ color: "var(--hh-gold-300)" }}>
-            ดูทั้งหมด →
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {featuredSuppliers.map((s) => (
-            <SupplierCard key={s.id} supplier={s} />
-          ))}
-        </div>
-      </section>
-
-      {/* ── CTA Banner ─────────────────────────────────────────── */}
-      <section className="relative overflow-hidden mx-6 mb-16 rounded-2xl" style={{ backgroundColor: "var(--hh-bg-surface-2)" }}>
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 60% 80% at 50% 50%, rgba(212,160,23,0.06) 0%, transparent 70%)" }}
-        />
-        <div className="relative max-w-2xl mx-auto py-16 px-6 text-center">
-          <div className="hh-eyebrow mb-4 mx-auto w-fit">เริ่มต้นวันนี้</div>
-          <h2 className="text-3xl font-bold mb-3" style={{ color: "var(--hh-text-primary)" }}>
-            พร้อมเข้าร่วม HalalUmmah?
-          </h2>
-          <p className="mb-8" style={{ color: "var(--hh-text-secondary)" }}>
-            ลงทะเบียนฟรี — ไม่มีค่าใช้จ่ายในปีแรก
+          {/* Description */}
+          <p style={{ marginTop: 20, color: "var(--text-2)", fontSize: 15, lineHeight: 1.7, maxWidth: 440, fontFamily: "var(--font-thai)" }}>
+            เชื่อมต่อผู้ประกอบการ ซัพพลายเออร์ และนักลงทุน
+            ในระบบเศรษฐกิจฮาลาลที่โปร่งใส — ไม่มีดอกเบี้ย ไม่มีความไม่แน่ใจ
           </p>
-          <Link href="/review" className="hh-btn-primary px-8 py-3 text-sm inline-block">
-            เริ่มต้นเลย
-          </Link>
+
+          {/* CTAs */}
+          <div style={{ display: "flex", gap: 12, marginTop: 28 }}>
+            <Link href="/review" className="btn-gold" style={{ fontSize: 14 }}>เริ่มต้นฟรี →</Link>
+            <Link href="/businesses" className="btn-ghost" style={{ fontSize: 14 }}>ดูธุรกิจทั้งหมด</Link>
+          </div>
         </div>
+
+        {/* RIGHT — floating business card panel */}
+        <div className="win-card" style={{ maxWidth: 400, marginLeft: "auto" }}>
+          {/* Window header */}
+          <div className="win-header">
+            <span className="win-dot-red" />
+            <span className="win-dot-yellow" />
+            <span className="win-dot-green" />
+            <span className="mono" style={{ fontSize: 11, color: "var(--text-3)", marginLeft: 8 }}>halalhub.th/biz/al-noor-foods</span>
+          </div>
+
+          <div style={{ padding: 20 }}>
+            {/* Business header */}
+            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 16 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: "rgba(212,160,23,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, color: "#D4A017", fontFamily: "var(--font-arabic)", fontWeight: 700, flexShrink: 0 }}>ن</div>
+                <div>
+                  <div style={{ color: "var(--text-1)", fontWeight: 600, fontSize: 14 }}>Al-Noor Foods Co.</div>
+                  <div className="mono" style={{ color: "var(--text-3)", fontSize: 11, marginTop: 2 }}>เชียงใหม่ · อาหารแปรรูป</div>
+                </div>
+              </div>
+              <span className="mono badge-gold-tier" style={{ padding: "3px 10px", borderRadius: 6, fontSize: 10, fontWeight: 700 }}>✦ Gold</span>
+            </div>
+
+            {/* Stats */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 16 }}>
+              {[
+                { label: "รายได้/ปี", value: "฿4.2M", color: "#4ADE80" },
+                { label: "ต้องการทุน", value: "฿800K", color: "#D4A017" },
+                { label: "ROI", value: "22%", color: "#C084FC" },
+              ].map((s) => (
+                <div key={s.label} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: 8, padding: "8px 6px", textAlign: "center" }}>
+                  <div style={{ fontWeight: 700, fontSize: 15, color: s.color, fontFamily: "var(--font-display)" }}>{s.value}</div>
+                  <div className="mono" style={{ fontSize: 10, color: "var(--text-3)", marginTop: 3 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Investment type badges */}
+            <div style={{ display: "flex", gap: 6, marginBottom: 16 }}>
+              <span className="mono badge-purple" style={{ padding: "3px 10px", borderRadius: 6, fontSize: 11 }}>มุชาระเกาะ</span>
+              <span className="mono badge-blue" style={{ padding: "3px 10px", borderRadius: 6, fontSize: 11 }}>Seeking Partners</span>
+            </div>
+
+            {/* Sparkline */}
+            <div style={{ marginBottom: 12 }}>
+              <div style={{ display: "flex", alignItems: "flex-end", gap: 3, height: 48 }}>
+                {SPARKLINE.map((h, i) => (
+                  <div key={i} style={{
+                    flex: 1, borderRadius: "3px 3px 0 0",
+                    height: `${h}%`,
+                    background: i === SPARKLINE.length - 1
+                      ? "#D4A017"
+                      : `rgba(212,160,23,${0.12 + i * 0.04})`,
+                    transition: "height 300ms",
+                  }} />
+                ))}
+              </div>
+              <div className="mono" style={{ fontSize: 10, color: "var(--text-3)", marginTop: 6 }}>รายได้ 8 ไตรมาสที่ผ่านมา</div>
+            </div>
+
+            {/* CTA */}
+            <button className="btn-ghost mono" style={{ width: "100%", padding: "8px 0", fontSize: 12, borderRadius: 8, justifyContent: "center" }}>
+              ดูโปรไฟล์ธุรกิจ →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ TIER SECTION ════════════════════════════════════════ */}
+      <section style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px 80px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 32 }}>
+          <span className="arabic" style={{ fontSize: 13, color: "var(--text-3)" }}>درجات الجودة</span>
+          <span style={{ flex: 1, height: 1, background: "var(--border)" }} />
+          <span className="mono" style={{ fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em" }}>HALAL WORKPLACE TIERS</span>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+          {[
+            { label: "Bronze", className: "badge-bronze-tier", accent: "#D97706", borderAccent: "#6B3F1A", criteria: ["อาหาร Halal ใน canteen", "ยืดหยุ่นวันศุกร์", "อย่างน้อย 3/5 เงื่อนไข"] },
+            { label: "Silver", className: "badge-silver-tier", accent: "#94A3B8", borderAccent: "#3D4A5C", criteria: ["มีห้องละหมาด", "อาหาร Halal", "ยืดหยุ่นวันศุกร์", "ไม่บังคับแต่งกายขัด"] },
+            { label: "Gold",   className: "badge-gold-tier",   accent: "#D4A017", borderAccent: "#8B6914", criteria: ["ครบทุกเงื่อนไข Silver", "ไม่มีแอลกอฮอล์ในบริษัท"] },
+          ].map((t) => (
+            <div key={t.label} className="win-card" style={{ borderLeft: `3px solid ${t.borderAccent}` }}>
+              <div className="win-header">
+                <span className="win-dot-red" /><span className="win-dot-yellow" /><span className="win-dot-green" />
+                <span className={`mono ${t.className}`} style={{ marginLeft: 8, padding: "2px 8px", borderRadius: 5, fontSize: 10, fontWeight: 700 }}>✦ Halal {t.label}</span>
+              </div>
+              <div style={{ padding: "16px 20px" }}>
+                <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
+                  {t.criteria.map((c) => (
+                    <li key={c} style={{ display: "flex", gap: 8, marginBottom: 8, fontSize: 13, color: "var(--text-2)", fontFamily: "var(--font-thai)" }}>
+                      <span style={{ color: t.accent, marginTop: 1, flexShrink: 0, fontFamily: "var(--font-mono-var)" }}>✓</span> {c}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ══ BUSINESSES ══════════════════════════════════════════ */}
+      <section style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px 80px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <span className="mono" style={{ fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em" }}>BUSINESSES</span>
+            <span style={{ height: 1, width: 32, background: "var(--border)" }} />
+          </div>
+          <Link href="/businesses" className="mono" style={{ fontSize: 12, color: "var(--gold)", textDecoration: "none" }}>ดูทั้งหมด →</Link>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+          {MOCK_BUSINESSES.map((b) => <BusinessCard key={b.id} business={b} />)}
+        </div>
+      </section>
+
+      {/* ══ SUPPLIERS ════════════════════════════════════════════ */}
+      <section style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px 80px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <span className="mono" style={{ fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em" }}>SUPPLIERS</span>
+            <span style={{ height: 1, width: 32, background: "var(--border)" }} />
+          </div>
+          <Link href="/suppliers" className="mono" style={{ fontSize: 12, color: "var(--gold)", textDecoration: "none" }}>ดูทั้งหมด →</Link>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+          {MOCK_SUPPLIERS.map((s) => <SupplierCard key={s.id} supplier={s} />)}
+        </div>
+      </section>
+
+      {/* ══ CTA BANNER ══════════════════════════════════════════ */}
+      <section style={{ maxWidth: 1280, margin: "0 24px 80px", padding: "60px 48px", borderRadius: 20, border: "1px solid rgba(212,160,23,0.15)", background: "var(--bg-surface)", position: "relative", overflow: "hidden", textAlign: "center" }}>
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 70% 80% at 50% 50%, rgba(212,160,23,0.05) 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div className="arabic" style={{ fontSize: 18, color: "var(--text-3)", marginBottom: 16 }}>انضم إلينا اليوم</div>
+        <h2 style={{ fontWeight: 800, fontSize: 36, color: "var(--text-1)", margin: "0 0 12px", fontFamily: "var(--font-thai)" }}>พร้อมเข้าร่วม HalalUmmah?</h2>
+        <p style={{ color: "var(--text-2)", marginBottom: 32, fontFamily: "var(--font-thai)" }}>ลงทะเบียนฟรี — ไม่มีค่าใช้จ่ายในปีแรก</p>
+        <Link href="/review" className="btn-gold" style={{ fontSize: 15, padding: "13px 32px" }}>เริ่มต้นเลย →</Link>
       </section>
     </div>
   )

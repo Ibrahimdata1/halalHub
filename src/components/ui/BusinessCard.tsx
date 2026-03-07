@@ -1,57 +1,55 @@
 import Link from "next/link"
 import { Business } from "@/types"
-import { TierBadge } from "./TierBadge"
+
+const TIER_CLASS: Record<string, string> = {
+  gold: "badge-gold-tier",
+  silver: "badge-silver-tier",
+  bronze: "badge-bronze-tier",
+}
 
 export function BusinessCard({ business }: { business: Business }) {
   return (
-    <div className="hh-card p-5 flex flex-col gap-3">
-      {/* Header */}
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-sm leading-snug truncate" style={{ color: "var(--hh-text-primary)" }}>
-            {business.nameTh}
-          </h3>
-          <p className="text-xs mt-0.5 truncate" style={{ color: "var(--hh-text-muted)" }}>
-            {business.name}
-          </p>
-        </div>
-        {business.tier && <TierBadge tier={business.tier} />}
-      </div>
-
-      {/* Description */}
-      <p className="text-xs leading-relaxed line-clamp-2" style={{ color: "var(--hh-text-secondary)" }}>
-        {business.description}
-      </p>
-
-      {/* Meta */}
-      <div className="flex items-center gap-1.5 text-xs" style={{ color: "var(--hh-text-muted)" }}>
-        <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-        <span>{business.province}</span>
-        <span>·</span>
-        <span>{business.industry}</span>
-      </div>
-
-      {/* Divider */}
-      <hr className="hh-divider" />
-
-      {/* Footer */}
-      <div className="flex items-center justify-between">
-        {business.seekingInvestment && (
-          <span className="hh-badge-investment inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium">
-            <span className="hh-pulse-dot" />
-            กำลังหานักลงทุน
+    <div className="win-card" style={{ cursor: "default" }}>
+      {/* Window header */}
+      <div className="win-header">
+        <span className="win-dot-red" />
+        <span className="win-dot-yellow" />
+        <span className="win-dot-green" />
+        {business.tier && (
+          <span className={`mono ${TIER_CLASS[business.tier]}`}
+            style={{ marginLeft: 8, padding: "2px 8px", borderRadius: 5, fontSize: 10, fontWeight: 700 }}>
+            ✦ Halal {business.tier.charAt(0).toUpperCase() + business.tier.slice(1)}
           </span>
         )}
-        <Link
-          href={`/businesses/${business.id}`}
-          className="ml-auto text-xs font-medium transition-colors"
-          style={{ color: "var(--hh-gold-300)" }}
-        >
-          ดูโปรไฟล์ →
-        </Link>
+      </div>
+
+      {/* Body */}
+      <div style={{ padding: 16 }}>
+        <div style={{ marginBottom: 10 }}>
+          <div style={{ fontWeight: 600, fontSize: 14, color: "var(--text-1)" }}>{business.nameTh}</div>
+          <div className="mono" style={{ fontSize: 11, color: "var(--text-3)", marginTop: 2 }}>{business.name}</div>
+        </div>
+
+        <p style={{ fontSize: 12, color: "var(--text-2)", lineHeight: 1.6, marginBottom: 12, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+          {business.description}
+        </p>
+
+        <div className="mono" style={{ display: "flex", gap: 6, fontSize: 11, color: "var(--text-3)", marginBottom: 12, alignItems: "center" }}>
+          <span>📍</span><span>{business.province}</span>
+          <span style={{ color: "rgba(255,255,255,0.12)" }}>·</span>
+          <span>{business.industry}</span>
+        </div>
+
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 12, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          {business.seekingInvestment ? (
+            <span className="mono badge-invest" style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "3px 10px", borderRadius: 999, fontSize: 11 }}>
+              <span className="pulse-dot" /> กำลังหานักลงทุน
+            </span>
+          ) : <span />}
+          <Link href={`/businesses/${business.id}`} className="mono" style={{ fontSize: 11, color: "var(--gold)", textDecoration: "none" }}>
+            ดูโปรไฟล์ →
+          </Link>
+        </div>
       </div>
     </div>
   )

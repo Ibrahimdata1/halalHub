@@ -3,69 +3,58 @@ import { Supplier } from "@/types"
 import { ALL_CATEGORIES } from "@/data/categoryTaxonomy"
 
 export function SupplierCard({ supplier }: { supplier: Supplier }) {
-  const categoryLabels = supplier.categoryIds
+  const cats = supplier.categoryIds
     .map((id) => ALL_CATEGORIES.find((c) => c.id === id)?.label)
     .filter(Boolean)
     .slice(0, 3)
 
   return (
-    <div className="hh-card p-5 flex flex-col gap-3">
-      {/* Header */}
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-sm leading-snug truncate" style={{ color: "var(--hh-text-primary)" }}>
-            {supplier.nameTh}
-          </h3>
-          <p className="text-xs mt-0.5 truncate" style={{ color: "var(--hh-text-muted)" }}>
-            {supplier.name}
-          </p>
-        </div>
+    <div className="win-card">
+      {/* Window header */}
+      <div className="win-header">
+        <span className="win-dot-red" />
+        <span className="win-dot-yellow" />
+        <span className="win-dot-green" />
         {supplier.verified && (
-          <span className="hh-badge-halal inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wide">
+          <span className="mono badge-green" style={{ marginLeft: 8, padding: "2px 8px", borderRadius: 5, fontSize: 10, fontWeight: 700 }}>
             ✓ Verified
           </span>
         )}
       </div>
 
-      {/* Description */}
-      <p className="text-xs leading-relaxed line-clamp-2" style={{ color: "var(--hh-text-secondary)" }}>
-        {supplier.description}
-      </p>
+      {/* Body */}
+      <div style={{ padding: 16 }}>
+        <div style={{ marginBottom: 10 }}>
+          <div style={{ fontWeight: 600, fontSize: 14, color: "var(--text-1)" }}>{supplier.nameTh}</div>
+          <div className="mono" style={{ fontSize: 11, color: "var(--text-3)", marginTop: 2 }}>{supplier.name}</div>
+        </div>
 
-      {/* Category chips */}
-      <div className="flex flex-wrap gap-1.5">
-        {categoryLabels.map((label) => (
-          <span
-            key={label}
-            className="px-2 py-0.5 text-[11px] rounded-md"
-            style={{ backgroundColor: "var(--hh-bg-surface-2)", color: "var(--hh-text-secondary)", border: "1px solid var(--hh-border-subtle)" }}
-          >
-            {label}
+        <p style={{ fontSize: 12, color: "var(--text-2)", lineHeight: 1.6, marginBottom: 12, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+          {supplier.description}
+        </p>
+
+        {/* Category tags */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 12 }}>
+          {cats.map((label) => (
+            <span key={label} className="mono" style={{ fontSize: 10, padding: "2px 8px", borderRadius: 5, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)", color: "var(--text-2)" }}>
+              {label}
+            </span>
+          ))}
+          {supplier.categoryIds.length > 3 && (
+            <span className="mono" style={{ fontSize: 10, padding: "2px 8px", borderRadius: 5, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)", color: "var(--text-3)" }}>
+              +{supplier.categoryIds.length - 3}
+            </span>
+          )}
+        </div>
+
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 12, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span className="mono" style={{ fontSize: 11, color: "var(--text-3)" }}>
+            {supplier.province} · MOQ {supplier.moqMin}
           </span>
-        ))}
-        {supplier.categoryIds.length > 3 && (
-          <span
-            className="px-2 py-0.5 text-[11px] rounded-md"
-            style={{ backgroundColor: "var(--hh-bg-surface-2)", color: "var(--hh-text-muted)", border: "1px solid var(--hh-border-subtle)" }}
-          >
-            +{supplier.categoryIds.length - 3}
-          </span>
-        )}
-      </div>
-
-      {/* Divider */}
-      <hr className="hh-divider" />
-
-      {/* Footer */}
-      <div className="flex items-center justify-between text-xs" style={{ color: "var(--hh-text-muted)" }}>
-        <span>{supplier.province} · MOQ {supplier.moqMin} {supplier.moqUnit}</span>
-        <Link
-          href={`/suppliers/${supplier.id}`}
-          className="font-medium transition-colors"
-          style={{ color: "var(--hh-gold-300)" }}
-        >
-          ดูโปรไฟล์ →
-        </Link>
+          <Link href={`/suppliers/${supplier.id}`} className="mono" style={{ fontSize: 11, color: "var(--gold)", textDecoration: "none" }}>
+            ดูโปรไฟล์ →
+          </Link>
+        </div>
       </div>
     </div>
   )
