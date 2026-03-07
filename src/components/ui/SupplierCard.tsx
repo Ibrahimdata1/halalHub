@@ -9,39 +9,60 @@ export function SupplierCard({ supplier }: { supplier: Supplier }) {
     .slice(0, 3)
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow">
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <div>
-          <h3 className="font-semibold text-gray-900 text-base">{supplier.nameTh}</h3>
-          <p className="text-sm text-gray-500">{supplier.name}</p>
+    <div className="hh-card p-5 flex flex-col gap-3">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold text-sm leading-snug truncate" style={{ color: "var(--hh-text-primary)" }}>
+            {supplier.nameTh}
+          </h3>
+          <p className="text-xs mt-0.5 truncate" style={{ color: "var(--hh-text-muted)" }}>
+            {supplier.name}
+          </p>
         </div>
         {supplier.verified && (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-blue-50 text-blue-700 text-xs font-semibold border border-blue-200 rounded-full">
+          <span className="hh-badge-halal inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wide">
             ✓ Verified
           </span>
         )}
       </div>
 
-      <p className="text-sm text-gray-600 mb-3 line-clamp-2">{supplier.description}</p>
+      {/* Description */}
+      <p className="text-xs leading-relaxed line-clamp-2" style={{ color: "var(--hh-text-secondary)" }}>
+        {supplier.description}
+      </p>
 
-      <div className="flex flex-wrap gap-1.5 mb-3">
+      {/* Category chips */}
+      <div className="flex flex-wrap gap-1.5">
         {categoryLabels.map((label) => (
-          <span key={label} className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-md">
+          <span
+            key={label}
+            className="px-2 py-0.5 text-[11px] rounded-md"
+            style={{ backgroundColor: "var(--hh-bg-surface-2)", color: "var(--hh-text-secondary)", border: "1px solid var(--hh-border-subtle)" }}
+          >
             {label}
           </span>
         ))}
         {supplier.categoryIds.length > 3 && (
-          <span className="px-2 py-0.5 bg-gray-100 text-gray-500 text-xs rounded-md">
+          <span
+            className="px-2 py-0.5 text-[11px] rounded-md"
+            style={{ backgroundColor: "var(--hh-bg-surface-2)", color: "var(--hh-text-muted)", border: "1px solid var(--hh-border-subtle)" }}
+          >
             +{supplier.categoryIds.length - 3}
           </span>
         )}
       </div>
 
-      <div className="flex items-center justify-between text-xs text-gray-500">
-        <span>{supplier.province} • MOQ {supplier.moqMin} {supplier.moqUnit}</span>
+      {/* Divider */}
+      <hr className="hh-divider" />
+
+      {/* Footer */}
+      <div className="flex items-center justify-between text-xs" style={{ color: "var(--hh-text-muted)" }}>
+        <span>{supplier.province} · MOQ {supplier.moqMin} {supplier.moqUnit}</span>
         <Link
           href={`/suppliers/${supplier.id}`}
-          className="font-medium text-emerald-600 hover:text-emerald-700"
+          className="font-medium transition-colors"
+          style={{ color: "var(--hh-gold-300)" }}
         >
           ดูโปรไฟล์ →
         </Link>

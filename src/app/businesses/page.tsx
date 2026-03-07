@@ -27,63 +27,78 @@ export default function BusinessesPage() {
     return true
   })
 
-  return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold mb-2">ธุรกิจ Halal</h1>
-      <p className="text-gray-500 mb-8">ธุรกิจที่ผ่านการ review Halal Workplace</p>
+  const inputStyle = { padding: "10px 14px", fontSize: 13, fontFamily: "inherit" }
 
-      {/* Filters */}
-      <div className="bg-white rounded-xl border border-gray-200 p-4 mb-8 flex flex-wrap gap-4 items-end">
+  return (
+    <div className="max-w-7xl mx-auto px-6 py-10">
+      {/* Header */}
+      <div className="mb-8">
+        <div className="hh-eyebrow mb-3 w-fit">B2B Directory</div>
+        <h1 className="text-3xl font-bold" style={{ color: "var(--hh-text-primary)" }}>ธุรกิจ Halal</h1>
+        <p className="text-sm mt-1" style={{ color: "var(--hh-text-secondary)" }}>
+          ธุรกิจที่ผ่านการ review Halal Workplace
+        </p>
+      </div>
+
+      {/* Filter bar */}
+      <div
+        className="rounded-xl p-5 mb-8 flex flex-wrap gap-4 items-end"
+        style={{
+          backgroundColor: "var(--hh-bg-surface)",
+          border: "1px solid var(--hh-border-subtle)",
+          borderLeft: "3px solid var(--hh-gold-400)",
+        }}
+      >
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">ค้นหา</label>
+          <label className="block text-xs font-medium mb-1.5" style={{ color: "var(--hh-text-muted)" }}>ค้นหา</label>
           <input
             type="text"
             placeholder="ชื่อธุรกิจ..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="border border-gray-300 rounded-lg px-3 py-2 text-sm w-48 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="hh-input w-44"
+            style={inputStyle}
           />
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">ภาค</label>
-          <select
-            value={region}
-            onChange={(e) => setRegion(e.target.value)}
-            className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          >
+          <label className="block text-xs font-medium mb-1.5" style={{ color: "var(--hh-text-muted)" }}>ภาค</label>
+          <select value={region} onChange={(e) => setRegion(e.target.value)} className="hh-input" style={{ ...inputStyle, width: 160 }}>
             {REGIONS.map((r) => <option key={r}>{r}</option>)}
           </select>
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">Tier</label>
-          <select
-            value={tier}
-            onChange={(e) => setTier(e.target.value as HalalTier | "all")}
-            className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          >
+          <label className="block text-xs font-medium mb-1.5" style={{ color: "var(--hh-text-muted)" }}>Tier</label>
+          <select value={tier} onChange={(e) => setTier(e.target.value as HalalTier | "all")} className="hh-input" style={{ ...inputStyle, width: 130 }}>
             {TIERS.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
           </select>
         </div>
-        <label className="flex items-center gap-2 text-sm cursor-pointer">
+        <label className="flex items-center gap-2 text-sm cursor-pointer" style={{ color: "var(--hh-text-secondary)" }}>
           <input
             type="checkbox"
             checked={seekingInvestment}
             onChange={(e) => setSeekingInvestment(e.target.checked)}
-            className="w-4 h-4 accent-emerald-600"
+            className="w-4 h-4"
+            style={{ accentColor: "var(--hh-gold-400)" }}
           />
           กำลังหานักลงทุน
         </label>
-        <span className="ml-auto text-sm text-gray-400">{filtered.length} รายการ</span>
+        <span
+          className="ml-auto text-xs font-semibold px-3 py-1 rounded-full"
+          style={{ backgroundColor: "rgba(212,160,23,0.08)", border: "1px solid rgba(212,160,23,0.2)", color: "var(--hh-gold-300)" }}
+        >
+          {filtered.length} รายการ
+        </span>
       </div>
 
       {/* Results */}
       {filtered.length === 0 ? (
-        <div className="text-center py-16 text-gray-400">ไม่พบธุรกิจที่ตรงกับเงื่อนไข</div>
+        <div className="text-center py-20" style={{ color: "var(--hh-text-muted)" }}>
+          <p className="text-4xl mb-3">🔍</p>
+          <p>ไม่พบธุรกิจที่ตรงกับเงื่อนไข</p>
+        </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filtered.map((b) => (
-            <BusinessCard key={b.id} business={b} />
-          ))}
+          {filtered.map((b) => <BusinessCard key={b.id} business={b} />)}
         </div>
       )}
     </div>
