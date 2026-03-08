@@ -1,12 +1,13 @@
 import type { Metadata } from "next"
 import { Noto_Sans_Thai, Plus_Jakarta_Sans, IBM_Plex_Mono, Noto_Naskh_Arabic } from "next/font/google"
 import Link from "next/link"
+import { ThemeToggle } from "@/components/ui/ThemeToggle"
 import "./globals.css"
 
 const notoSansThai = Noto_Sans_Thai({
   variable: "--font-thai",
   subsets: ["thai"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   display: "swap",
 })
 const plusJakarta = Plus_Jakarta_Sans({
@@ -29,61 +30,167 @@ const notoNaskh = Noto_Naskh_Arabic({
 })
 
 export const metadata: Metadata = {
-  title: "HalalUmmah — ตลาดฮาลาลสำหรับผู้ประกอบการ",
+  title: "HalalHub — ตลาดฮาลาลสำหรับผู้ประกอบการ",
   description: "เชื่อมต่อธุรกิจ ซัพพลายเออร์ และนักลงทุนในระบบเศรษฐกิจฮาลาลที่โปร่งใส",
 }
 
-const PILLS = [
-  { label: "ค้นหาธุรกิจ", icon: "☪", color: "#D4A017", bg: "#1A1A0E", href: "/businesses" },
-  { label: "หมวดหมู่", icon: "⊞", color: "#4ADE80", bg: "#0E1A12", href: "/suppliers" },
-  { label: "นักลงทุน", icon: "◈", color: "#C084FC", bg: "#1A0E1A", href: "/businesses?seeking=true" },
-  { label: "Halal Verified", icon: "✦", color: "#FB923C", bg: "#1A1208", href: "/businesses?tier=gold" },
+const NAV_LINKS = [
+  { href: "/businesses", label: "ธุรกิจ" },
+  { href: "/suppliers",  label: "ซัพพลายเออร์" },
+  { href: "/businesses?seeking=true", label: "นักลงทุน" },
+]
+
+const FOOTER_LINKS = [
+  { label: "ธุรกิจ",         href: "/businesses" },
+  { label: "ซัพพลายเออร์",  href: "/suppliers" },
+  { label: "Halal Tiers",    href: "/#tiers" },
+  { label: "ลงทะเบียน",     href: "/review" },
 ]
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="th">
       <body className={`${notoSansThai.variable} ${plusJakarta.variable} ${ibmPlexMono.variable} ${notoNaskh.variable} font-sans antialiased`}>
-        {/* Navbar */}
-        <nav style={{ backgroundColor: "rgba(15,15,15,0.85)", borderBottom: "1px solid rgba(255,255,255,0.06)", backdropFilter: "blur(16px)", position: "sticky", top: 0, zIndex: 50 }}>
-          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px", height: 56, display: "flex", alignItems: "center", gap: 16 }}>
+
+        {/* ── Navbar ─────────────────────────────────────────────── */}
+        <nav style={{
+          backgroundColor: "rgba(5, 14, 31, 0.80)",
+          borderBottom: "1px solid var(--border)",
+          backdropFilter: "blur(20px) saturate(1.5)",
+          WebkitBackdropFilter: "blur(20px) saturate(1.5)",
+          position: "sticky",
+          top: 0,
+          zIndex: 50,
+        }}>
+          <div style={{
+            maxWidth: 1280,
+            margin: "0 auto",
+            padding: "0 24px",
+            height: 60,
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+          }}>
             {/* Logo */}
             <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", flexShrink: 0 }}>
-              <div style={{ width: 30, height: 30, borderRadius: 8, background: "#D4A017", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: "#0F0F0F" }}>☪</div>
-              <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 16, color: "var(--text-1)", letterSpacing: "-0.02em" }}>HalalUmmah</span>
-              <span style={{ fontFamily: "var(--font-arabic)", fontSize: 11, color: "var(--text-3)", marginLeft: 4 }}>السوق الحلال</span>
+              <div style={{
+                width: 32,
+                height: 32,
+                borderRadius: 10,
+                background: "linear-gradient(135deg, var(--gold-300), var(--gold-500))",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 16,
+                fontWeight: 700,
+                color: "#08050A",
+                boxShadow: "0 0 16px var(--gold-glow-md)",
+                flexShrink: 0,
+              }}>☪</div>
+              <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
+                <span style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 800,
+                  fontSize: 15,
+                  color: "var(--text-1)",
+                  letterSpacing: "-0.02em",
+                }}>HalalHub</span>
+                <span className="arabic" style={{ fontSize: 9, color: "var(--text-3)" }}>السوق الحلال</span>
+              </div>
             </Link>
 
-            {/* Pills */}
-            <div style={{ display: "flex", alignItems: "center", gap: 6, marginLeft: 16, flex: 1, overflow: "hidden" }}>
-              {PILLS.map((p) => (
-                <Link key={p.label} href={p.href} className="nav-pill mono" style={{ backgroundColor: p.bg, color: p.color, textDecoration: "none" }}>
-                  <span>{p.icon}</span> {p.label}
+            {/* Nav links */}
+            <div style={{ display: "flex", alignItems: "center", gap: 4, marginLeft: 8 }}>
+              {NAV_LINKS.map((l) => (
+                <Link key={l.href} href={l.href} className="nav-pill" style={{ fontFamily: "var(--font-thai)" }}>
+                  {l.label}
                 </Link>
               ))}
             </div>
 
-            {/* Auth */}
-            <Link href="/review" className="btn-gold" style={{ padding: "7px 18px", fontSize: 13, borderRadius: 10, flexShrink: 0 }}>
-              ลงทะเบียน →
-            </Link>
+            {/* Search */}
+            <div className="search-bar" style={{ flex: 1, maxWidth: 280, margin: "0 auto" }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" strokeWidth="2.5" style={{ flexShrink: 0 }}>
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+              </svg>
+              <input type="text" placeholder="ค้นหาธุรกิจ, ซัพพลายเออร์..." />
+              <span className="mono" style={{ fontSize: 10, color: "var(--text-3)", whiteSpace: "nowrap" }}>⌘K</span>
+            </div>
+
+            {/* Right actions */}
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginLeft: "auto", flexShrink: 0 }}>
+              <ThemeToggle />
+              <Link href="/review" className="btn-gold" style={{ padding: "7px 18px", fontSize: 12, borderRadius: 10 }}>
+                ลงทะเบียน →
+              </Link>
+            </div>
           </div>
         </nav>
 
         <main>{children}</main>
 
-        {/* Footer */}
-        <footer style={{ borderTop: "1px solid var(--border)", marginTop: 80, padding: "32px 24px" }}>
-          <div style={{ maxWidth: 1280, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ color: "var(--gold)" }}>☪</span>
-              <span className="mono" style={{ fontSize: 13, color: "var(--text-1)", fontWeight: 600 }}>HalalUmmah</span>
-              <span style={{ fontSize: 13, color: "var(--text-3)" }}>· ตลาดฮาลาลประเทศไทย</span>
+        {/* ── Footer ─────────────────────────────────────────────── */}
+        <footer style={{
+          borderTop: "1px solid var(--border)",
+          marginTop: 100,
+          padding: "48px 24px 32px",
+          background: "var(--bg-0)",
+        }}>
+          <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 48, marginBottom: 40 }}>
+              {/* Brand */}
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                  <div style={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: 8,
+                    background: "linear-gradient(135deg, var(--gold-300), var(--gold-500))",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 13,
+                    color: "#08050A",
+                    fontWeight: 700,
+                  }}>☪</div>
+                  <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 15, color: "var(--text-1)" }}>HalalHub</span>
+                </div>
+                <p style={{ color: "var(--text-2)", fontSize: 13, lineHeight: 1.6, maxWidth: 300, fontFamily: "var(--font-thai)", margin: 0 }}>
+                  ตลาดฮาลาลที่เชื่อมต่อผู้ประกอบการ ซัพพลายเออร์ และนักลงทุนในระบบเศรษฐกิจอิสลาม
+                </p>
+                <span className="arabic" style={{ fontSize: 12, color: "var(--text-3)", display: "block", marginTop: 10 }}>
+                  الاقتصاد الحلال في تايلاند
+                </span>
+              </div>
+
+              {/* Links */}
+              <div style={{ display: "flex", gap: 32 }}>
+                <div>
+                  <div className="mono" style={{ fontSize: 10, color: "var(--text-3)", letterSpacing: "0.08em", marginBottom: 12 }}>PLATFORM</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                    {FOOTER_LINKS.map((l) => (
+                      <Link key={l.href} href={l.href} className="footer-link" style={{ fontSize: 13, color: "var(--text-2)", textDecoration: "none", fontFamily: "var(--font-thai)" }}>
+                        {l.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
-            <span className="arabic" style={{ fontSize: 13, color: "var(--text-3)" }}>الاقتصاد الحلال في تايلاند</span>
-            <p className="mono" style={{ fontSize: 11, color: "var(--text-3)" }}>© 2025 HalalUmmah</p>
+
+            <hr className="divider" />
+
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 20, flexWrap: "wrap", gap: 8 }}>
+              <span className="mono" style={{ fontSize: 11, color: "var(--text-3)" }}>© 2026 HalalHub · ตลาดฮาลาลประเทศไทย</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span className="mono" style={{ fontSize: 10, color: "var(--text-3)" }}>Built with</span>
+                <span style={{ fontSize: 11, color: "var(--gold-400)" }}>♥</span>
+                <span className="mono" style={{ fontSize: 10, color: "var(--text-3)" }}>for the Ummah</span>
+              </div>
+            </div>
           </div>
         </footer>
+
       </body>
     </html>
   )
