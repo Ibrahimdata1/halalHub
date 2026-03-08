@@ -117,6 +117,7 @@ html[data-theme="light"] {
 body {
   background-color: var(--bg-1);
   color: var(--text-1);
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -205,8 +206,8 @@ html[data-theme="light"] body::after {
 /* Glass variant */
 .card-glass {
   background: var(--bg-glass);
-  backdrop-filter: blur(24px) saturate(1.8);
-  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border-md);
   border-radius: 20px;
   overflow: hidden;
@@ -314,9 +315,9 @@ html[data-theme="light"] body::after {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 3px 10px;
+  padding: 4px 11px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
   letter-spacing: 0.01em;
@@ -356,7 +357,7 @@ html[data-theme="light"] body::after {
   border: 1px solid var(--border);
   color: var(--text-1);
   border-radius: 12px;
-  font-size: 13px;
+  font-size: 15px;
   width: 100%;
   transition: border-color 150ms, box-shadow 150ms;
 }
@@ -391,7 +392,7 @@ html[data-theme="light"] body::after {
   border: none;
   outline: none;
   color: var(--text-1);
-  font-size: 13px;
+  font-size: 14px;
   min-width: 0;
   flex: 1;
 }
@@ -402,10 +403,10 @@ html[data-theme="light"] body::after {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 5px 14px;
+  padding: 6px 16px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
   color: var(--text-2);

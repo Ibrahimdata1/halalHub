@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from "react"
 import Link from "next/link"
 import { MOCK_BUSINESSES, MOCK_SUPPLIERS } from "@/lib/mockData"
 import { BusinessCard } from "@/components/ui/BusinessCard"
@@ -12,18 +15,24 @@ const STATS = [
 ]
 
 const CATEGORIES = [
-  { icon: "🥩", label: "อาหาร & เครื่องดื่ม", count: "4.2K",  color: "#34D399", bg: "rgba(52,211,153,0.08)"  },
-  { icon: "💄", label: "ความงาม & สุขภาพ",    count: "1.8K",  color: "#A78BFA", bg: "rgba(167,139,250,0.08)" },
-  { icon: "🏦", label: "การเงิน Halal",        count: "892",   color: "#E8B84B", bg: "rgba(232,184,75,0.08)"  },
-  { icon: "🏭", label: "ซัพพลายเออร์",         count: "5.1K",  color: "#60A5FA", bg: "rgba(96,165,250,0.08)"  },
-  { icon: "📚", label: "การศึกษา & คอร์ส",    count: "342",   color: "#38BDF8", bg: "rgba(56,189,248,0.08)"  },
-  { icon: "🏗️", label: "ก่อสร้าง & อสังหา",  count: "1.2K",  color: "#FB923C", bg: "rgba(251,146,60,0.08)"  },
+  { icon: "🥩", label: "อาหาร & เครื่องดื่ม", count: "4.2K",  color: "#34D399", bg: "rgba(52,211,153,0.08)",  industry: "อาหารและเครื่องดื่ม" },
+  { icon: "💄", label: "ความงาม & สุขภาพ",    count: "1.8K",  color: "#A78BFA", bg: "rgba(167,139,250,0.08)", industry: "ความงาม" },
+  { icon: "🏦", label: "การเงิน Halal",        count: "892",   color: "#E8B84B", bg: "rgba(232,184,75,0.08)",  industry: "การเงิน" },
+  { icon: "🏭", label: "ซัพพลายเออร์",         count: "5.1K",  color: "#60A5FA", bg: "rgba(96,165,250,0.08)",  industry: "นำเข้า-ส่งออก" },
+  { icon: "📚", label: "การศึกษา & คอร์ส",    count: "342",   color: "#38BDF8", bg: "rgba(56,189,248,0.08)",  industry: "การศึกษา" },
+  { icon: "🏗️", label: "ก่อสร้าง & อสังหา",  count: "1.2K",  color: "#FB923C", bg: "rgba(251,146,60,0.08)",  industry: "ก่อสร้าง" },
 ]
 
 const SPARKLINE = [28, 42, 36, 55, 48, 68, 60, 88]
 
 /* ── Component ──────────────────────────────────────────────────── */
 export default function HomePage() {
+  const [selectedCat, setSelectedCat] = useState<string | null>(null)
+
+  const filteredBusinesses = selectedCat
+    ? MOCK_BUSINESSES.filter((b) => b.industry === selectedCat)
+    : MOCK_BUSINESSES
+
   return (
     <div>
 
@@ -37,9 +46,9 @@ export default function HomePage() {
           <div>
             {/* Bismillah tag */}
             <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 28, padding: "6px 14px", borderRadius: 999, border: "1px solid var(--border-gold)", background: "var(--gold-glow)" }}>
-              <span className="arabic" style={{ fontSize: 13, color: "var(--gold-400)" }}>بِسْمِ اللهِ</span>
+              <span className="arabic" style={{ fontSize: 14, color: "var(--gold-400)" }}>بِسْمِ اللهِ</span>
               <span style={{ width: 1, height: 12, background: "var(--border-gold)" }} />
-              <span className="mono" style={{ fontSize: 10, color: "var(--text-2)", letterSpacing: "0.08em" }}>HALAL MARKETPLACE · TH</span>
+              <span className="mono" style={{ fontSize: 11, color: "var(--text-2)", letterSpacing: "0.08em" }}>HALAL MARKETPLACE · TH</span>
             </div>
 
             {/* Headline */}
@@ -64,7 +73,7 @@ export default function HomePage() {
             {/* Description */}
             <p style={{
               color: "var(--text-2)",
-              fontSize: 16,
+              fontSize: 18,
               lineHeight: 1.75,
               maxWidth: 440,
               fontFamily: "var(--font-thai)",
@@ -77,10 +86,10 @@ export default function HomePage() {
 
             {/* CTAs */}
             <div style={{ display: "flex", gap: 12, marginBottom: 40, flexWrap: "wrap" }}>
-              <Link href="/review" className="btn-gold" style={{ fontSize: 15, padding: "13px 28px" }}>
+              <Link href="/review" className="btn-gold" style={{ fontSize: 16, padding: "13px 28px" }}>
                 เริ่มต้นฟรี →
               </Link>
-              <Link href="/businesses" className="btn-ghost" style={{ fontSize: 14, padding: "12px 24px" }}>
+              <Link href="/businesses" className="btn-ghost" style={{ fontSize: 15, padding: "12px 24px" }}>
                 ดูธุรกิจทั้งหมด
               </Link>
             </div>
@@ -89,8 +98,8 @@ export default function HomePage() {
             <div className="stats-row" style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
               {STATS.slice(0, 3).map((s) => (
                 <div key={s.label} style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                  <span className="stat-num" style={{ fontSize: 22, color: s.color }}>{s.value}</span>
-                  <span style={{ fontSize: 11, color: "var(--text-3)", fontFamily: "var(--font-thai)" }}>{s.label}</span>
+                  <span className="stat-num" style={{ fontSize: 24, color: s.color }}>{s.value}</span>
+                  <span style={{ fontSize: 13, color: "var(--text-3)", fontFamily: "var(--font-thai)" }}>{s.label}</span>
                 </div>
               ))}
             </div>
@@ -142,11 +151,11 @@ export default function HomePage() {
                       flexShrink: 0,
                     }}>ن</div>
                     <div>
-                      <div style={{ fontWeight: 700, fontSize: 14, color: "var(--text-1)", marginBottom: 2 }}>Al-Noor Foods Co.</div>
-                      <div className="mono" style={{ fontSize: 10, color: "var(--text-3)" }}>เชียงใหม่ · อาหารแปรรูป</div>
+                      <div style={{ fontWeight: 700, fontSize: 15, color: "var(--text-1)", marginBottom: 2 }}>Al-Noor Foods Co.</div>
+                      <div className="mono" style={{ fontSize: 11, color: "var(--text-3)" }}>เชียงใหม่ · อาหารแปรรูป</div>
                     </div>
                   </div>
-                  <span className="badge badge-gold-tier mono" style={{ fontSize: 10 }}>✦ Gold</span>
+                  <span className="badge badge-gold-tier mono" style={{ fontSize: 11 }}>✦ Gold</span>
                 </div>
 
                 {/* Stats grid */}
@@ -163,16 +172,16 @@ export default function HomePage() {
                       padding: "10px 8px",
                       textAlign: "center",
                     }}>
-                      <div className="stat-num" style={{ fontSize: 16, color: s.color }}>{s.value}</div>
-                      <div className="mono" style={{ fontSize: 10, color: "var(--text-3)", marginTop: 3 }}>{s.label}</div>
+                      <div className="stat-num" style={{ fontSize: 17, color: s.color }}>{s.value}</div>
+                      <div className="mono" style={{ fontSize: 11, color: "var(--text-3)", marginTop: 3 }}>{s.label}</div>
                     </div>
                   ))}
                 </div>
 
                 {/* Badges */}
                 <div style={{ display: "flex", gap: 6, marginBottom: 18, flexWrap: "wrap" }}>
-                  <span className="badge badge-purple mono" style={{ fontSize: 10 }}>มุชาระเกาะ</span>
-                  <span className="badge badge-blue mono" style={{ fontSize: 10 }}>Seeking Partners</span>
+                  <span className="badge badge-purple mono" style={{ fontSize: 11 }}>มุชาระเกาะ</span>
+                  <span className="badge badge-blue mono" style={{ fontSize: 11 }}>Seeking Partners</span>
                 </div>
 
                 {/* Sparkline */}
@@ -188,7 +197,7 @@ export default function HomePage() {
                       }} />
                     ))}
                   </div>
-                  <div className="mono" style={{ fontSize: 9, color: "var(--text-3)", marginTop: 6 }}>
+                  <div className="mono" style={{ fontSize: 10, color: "var(--text-3)", marginTop: 6 }}>
                     รายได้ 8 ไตรมาสที่ผ่านมา
                   </div>
                 </div>
@@ -196,10 +205,10 @@ export default function HomePage() {
                 {/* Halalhub URL */}
                 <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 12px", background: "var(--bg-3)", borderRadius: 8, marginBottom: 14 }}>
                   <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--em-400)", boxShadow: "0 0 6px var(--em-glow)", flexShrink: 0 }} />
-                  <span className="mono" style={{ fontSize: 10, color: "var(--text-2)" }}>halalhub.th/biz/al-noor-foods</span>
+                  <span className="mono" style={{ fontSize: 11, color: "var(--text-2)" }}>halalummah.vercel.app/biz/al-noor-foods</span>
                 </div>
 
-                <button className="btn-ghost mono" style={{ width: "100%", padding: "9px 0", fontSize: 12, borderRadius: 10, justifyContent: "center" }}>
+                <button className="btn-ghost mono" style={{ width: "100%", padding: "9px 0", fontSize: 13, borderRadius: 10, justifyContent: "center" }}>
                   ดูโปรไฟล์ธุรกิจ →
                 </button>
               </div>
@@ -213,14 +222,14 @@ export default function HomePage() {
               padding: "8px 14px",
               borderRadius: 12,
               background: "var(--bg-glass)",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)",
               border: "1px solid var(--border-gold)",
               boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
               zIndex: 2,
             }}>
-              <div className="mono" style={{ fontSize: 10, color: "var(--text-3)", marginBottom: 2 }}>Active Deals</div>
-              <div className="stat-num text-gold" style={{ fontSize: 18 }}>247</div>
+              <div className="mono" style={{ fontSize: 11, color: "var(--text-3)", marginBottom: 2 }}>Active Deals</div>
+              <div className="stat-num text-gold" style={{ fontSize: 20 }}>247</div>
             </div>
           </div>
         </div>
@@ -231,33 +240,57 @@ export default function HomePage() {
       ══════════════════════════════════════════════════════════ */}
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px 80px" }}>
         <div className="section-head" style={{ marginBottom: 28 }}>
-          <span className="arabic" style={{ fontSize: 12, color: "var(--text-3)" }}>الفئات</span>
-          <span className="mono" style={{ fontSize: 11, color: "var(--text-3)", letterSpacing: "0.07em" }}>CATEGORIES</span>
+          <span className="arabic" style={{ fontSize: 13, color: "var(--text-3)" }}>الفئات</span>
+          <span className="mono" style={{ fontSize: 12, color: "var(--text-3)", letterSpacing: "0.07em" }}>CATEGORIES</span>
+          {selectedCat && (
+            <button
+              onClick={() => setSelectedCat(null)}
+              className="mono"
+              style={{ marginLeft: "auto", fontSize: 12, color: "var(--text-3)", background: "none", border: "1px solid var(--border)", borderRadius: 8, padding: "3px 10px", cursor: "pointer" }}
+            >
+              × ล้างตัวกรอง
+            </button>
+          )}
         </div>
 
         <div className="cat-grid" style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 12 }}>
-          {CATEGORIES.map((c) => (
-            <Link key={c.label} href="/businesses" className="cat-card" style={{ textDecoration: "none" }}>
-              <div style={{
-                width: 48,
-                height: 48,
-                borderRadius: 14,
-                background: c.bg,
-                border: `1px solid ${c.color}22`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 22,
-                marginBottom: 4,
-              }}>
-                {c.icon}
-              </div>
-              <div style={{ fontSize: 11, fontWeight: 600, color: "var(--text-1)", fontFamily: "var(--font-thai)", textAlign: "center", lineHeight: 1.3 }}>
-                {c.label}
-              </div>
-              <div className="mono" style={{ fontSize: 10, color: c.color }}>{c.count} รายการ</div>
-            </Link>
-          ))}
+          {CATEGORIES.map((c) => {
+            const isSelected = selectedCat === c.industry
+            return (
+              <button
+                key={c.label}
+                onClick={() => setSelectedCat(isSelected ? null : c.industry)}
+                className="cat-card"
+                style={{
+                  textDecoration: "none",
+                  background: isSelected ? c.bg : "var(--bg-2)",
+                  borderColor: isSelected ? c.color : undefined,
+                  boxShadow: isSelected ? `0 0 20px ${c.color}22` : undefined,
+                  border: isSelected ? `2px solid ${c.color}88` : undefined,
+                  width: "100%",
+                }}
+              >
+                <div style={{
+                  width: 52,
+                  height: 52,
+                  borderRadius: 14,
+                  background: c.bg,
+                  border: `1px solid ${c.color}33`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 24,
+                  marginBottom: 4,
+                }}>
+                  {c.icon}
+                </div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: isSelected ? c.color : "var(--text-1)", fontFamily: "var(--font-thai)", textAlign: "center", lineHeight: 1.3 }}>
+                  {c.label}
+                </div>
+                <div className="mono" style={{ fontSize: 11, color: c.color }}>{c.count} รายการ</div>
+              </button>
+            )
+          })}
         </div>
       </section>
 
@@ -269,17 +302,26 @@ export default function HomePage() {
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px 80px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 28 }}>
           <div className="section-head" style={{ flex: 1, marginBottom: 0 }}>
-            <span className="arabic" style={{ fontSize: 12, color: "var(--text-3)" }}>الأعمال المميزة</span>
-            <span className="mono" style={{ fontSize: 11, color: "var(--text-3)", letterSpacing: "0.07em" }}>FEATURED BUSINESSES</span>
+            <span className="arabic" style={{ fontSize: 13, color: "var(--text-3)" }}>الأعمال المميزة</span>
+            <span className="mono" style={{ fontSize: 12, color: "var(--text-3)", letterSpacing: "0.07em" }}>
+              {selectedCat ? `BUSINESSES — ${CATEGORIES.find(c => c.industry === selectedCat)?.label}` : "FEATURED BUSINESSES"}
+            </span>
           </div>
-          <Link href="/businesses" className="mono" style={{ fontSize: 12, color: "var(--gold-400)", textDecoration: "none", marginLeft: 16, whiteSpace: "nowrap" }}>
+          <Link href="/businesses" className="mono" style={{ fontSize: 13, color: "var(--gold-400)", textDecoration: "none", marginLeft: 16, whiteSpace: "nowrap" }}>
             ดูทั้งหมด →
           </Link>
         </div>
 
-        <div className="card-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-          {MOCK_BUSINESSES.map((b) => <BusinessCard key={b.id} business={b} />)}
-        </div>
+        {filteredBusinesses.length === 0 ? (
+          <div style={{ textAlign: "center", padding: "60px 0", color: "var(--text-3)" }}>
+            <div className="mono" style={{ fontSize: 28, marginBottom: 10 }}>// not found</div>
+            <p style={{ fontFamily: "var(--font-thai)", fontSize: 15 }}>ไม่พบธุรกิจในหมวดนี้</p>
+          </div>
+        ) : (
+          <div className="card-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+            {filteredBusinesses.map((b) => <BusinessCard key={b.id} business={b} />)}
+          </div>
+        )}
       </section>
 
       {/* ══════════════════════════════════════════════════════════
@@ -287,8 +329,8 @@ export default function HomePage() {
       ══════════════════════════════════════════════════════════ */}
       <section id="tiers" style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px 80px" }}>
         <div className="section-head" style={{ marginBottom: 28 }}>
-          <span className="arabic" style={{ fontSize: 12, color: "var(--text-3)" }}>درجات الجودة</span>
-          <span className="mono" style={{ fontSize: 11, color: "var(--text-3)", letterSpacing: "0.07em" }}>HALAL WORKPLACE TIERS</span>
+          <span className="arabic" style={{ fontSize: 13, color: "var(--text-3)" }}>درجات الجودة</span>
+          <span className="mono" style={{ fontSize: 12, color: "var(--text-3)", letterSpacing: "0.07em" }}>HALAL WORKPLACE TIERS</span>
         </div>
 
         <div className="tier-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
@@ -319,11 +361,11 @@ export default function HomePage() {
               <div className={`card-bar ${t.barClass}`} />
               <div style={{ padding: "20px 22px" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-                  <span className={`badge ${t.className} mono`} style={{ fontSize: 11 }}>✦ Halal {t.label}</span>
+                  <span className={`badge ${t.className} mono`} style={{ fontSize: 12 }}>✦ Halal {t.label}</span>
                 </div>
                 <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
                   {t.criteria.map((c) => (
-                    <li key={c} style={{ display: "flex", gap: 8, marginBottom: 10, fontSize: 13, color: "var(--text-2)", fontFamily: "var(--font-thai)", alignItems: "flex-start" }}>
+                    <li key={c} style={{ display: "flex", gap: 8, marginBottom: 10, fontSize: 14, color: "var(--text-2)", fontFamily: "var(--font-thai)", alignItems: "flex-start" }}>
                       <span style={{ color: t.accent, flexShrink: 0, fontFamily: "var(--font-mono-var)", marginTop: 1 }}>✓</span>
                       {c}
                     </li>
@@ -341,10 +383,10 @@ export default function HomePage() {
       <section style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px 80px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 28 }}>
           <div className="section-head" style={{ flex: 1, marginBottom: 0 }}>
-            <span className="arabic" style={{ fontSize: 12, color: "var(--text-3)" }}>الموردون</span>
-            <span className="mono" style={{ fontSize: 11, color: "var(--text-3)", letterSpacing: "0.07em" }}>HALAL SUPPLIERS</span>
+            <span className="arabic" style={{ fontSize: 13, color: "var(--text-3)" }}>الموردون</span>
+            <span className="mono" style={{ fontSize: 12, color: "var(--text-3)", letterSpacing: "0.07em" }}>HALAL SUPPLIERS</span>
           </div>
-          <Link href="/suppliers" className="mono" style={{ fontSize: 12, color: "var(--gold-400)", textDecoration: "none", marginLeft: 16, whiteSpace: "nowrap" }}>
+          <Link href="/suppliers" className="mono" style={{ fontSize: 13, color: "var(--gold-400)", textDecoration: "none", marginLeft: 16, whiteSpace: "nowrap" }}>
             ดูทั้งหมด →
           </Link>
         </div>
@@ -366,7 +408,6 @@ export default function HomePage() {
           position: "relative",
           overflow: "hidden",
         }}>
-          {/* bg glow */}
           <div style={{
             position: "absolute",
             inset: 0,
@@ -377,10 +418,10 @@ export default function HomePage() {
           <div style={{ position: "relative", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 32 }}>
             {STATS.map((s) => (
               <div key={s.label} style={{ textAlign: "center" }}>
-                <div style={{ fontSize: 28, marginBottom: 6 }}>{s.icon}</div>
-                <div className="stat-num" style={{ fontSize: 30, color: s.color, marginBottom: 4 }}>{s.value}</div>
-                <div style={{ fontWeight: 700, fontSize: 13, color: "var(--text-1)", fontFamily: "var(--font-thai)" }}>{s.label}</div>
-                <div style={{ fontSize: 11, color: "var(--text-3)", marginTop: 2, fontFamily: "var(--font-thai)" }}>{s.sub}</div>
+                <div style={{ fontSize: 30, marginBottom: 6 }}>{s.icon}</div>
+                <div className="stat-num" style={{ fontSize: 32, color: s.color, marginBottom: 4 }}>{s.value}</div>
+                <div style={{ fontWeight: 700, fontSize: 15, color: "var(--text-1)", fontFamily: "var(--font-thai)" }}>{s.label}</div>
+                <div style={{ fontSize: 13, color: "var(--text-3)", marginTop: 2, fontFamily: "var(--font-thai)" }}>{s.sub}</div>
               </div>
             ))}
           </div>
@@ -400,23 +441,18 @@ export default function HomePage() {
           position: "relative",
           overflow: "hidden",
         }}>
-          {/* Decorative orbs */}
           <div style={{
             position: "absolute",
-            top: -80,
-            left: -80,
-            width: 300,
-            height: 300,
+            top: -80, left: -80,
+            width: 300, height: 300,
             borderRadius: "50%",
             background: "radial-gradient(circle, var(--gold-glow) 0%, transparent 70%)",
             pointerEvents: "none",
           }} />
           <div style={{
             position: "absolute",
-            bottom: -80,
-            right: -80,
-            width: 300,
-            height: 300,
+            bottom: -80, right: -80,
+            width: 300, height: 300,
             borderRadius: "50%",
             background: "radial-gradient(circle, var(--em-glow) 0%, transparent 70%)",
             pointerEvents: "none",
@@ -436,14 +472,14 @@ export default function HomePage() {
             }}>
               พร้อมเข้าร่วม <span className="text-gold">HalalHub</span>?
             </h2>
-            <p style={{ color: "var(--text-2)", marginBottom: 36, fontSize: 16, fontFamily: "var(--font-thai)" }}>
+            <p style={{ color: "var(--text-2)", marginBottom: 36, fontSize: 17, fontFamily: "var(--font-thai)" }}>
               ลงทะเบียนฟรี — ไม่มีค่าใช้จ่ายในปีแรก · เก็บเฉพาะเมื่อคุณได้ผล
             </p>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <Link href="/review" className="btn-gold" style={{ fontSize: 15, padding: "14px 32px" }}>
+              <Link href="/review" className="btn-gold" style={{ fontSize: 16, padding: "14px 32px" }}>
                 เริ่มต้นเลย →
               </Link>
-              <Link href="/businesses" className="btn-ghost" style={{ fontSize: 14, padding: "13px 28px" }}>
+              <Link href="/businesses" className="btn-ghost" style={{ fontSize: 15, padding: "13px 28px" }}>
                 ดูธุรกิจทั้งหมด
               </Link>
             </div>

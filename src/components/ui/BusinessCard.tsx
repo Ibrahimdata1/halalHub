@@ -58,10 +58,10 @@ export function BusinessCard({ business }: { business: Business }) {
               {initials(business.name)}
             </div>
             <div>
-              <div style={{ fontWeight: 700, fontSize: 14, color: "var(--text-1)", lineHeight: 1.3 }}>
+              <div style={{ fontWeight: 700, fontSize: 16, color: "var(--text-1)", lineHeight: 1.3 }}>
                 {business.nameTh}
               </div>
-              <div className="mono" style={{ fontSize: 10, color: "var(--text-3)", marginTop: 2 }}>
+              <div className="mono" style={{ fontSize: 11, color: "var(--text-3)", marginTop: 2 }}>
                 {business.name}
               </div>
             </div>
@@ -75,7 +75,7 @@ export function BusinessCard({ business }: { business: Business }) {
 
         {/* Description */}
         <p style={{
-          fontSize: 12,
+          fontSize: 14,
           color: "var(--text-2)",
           lineHeight: 1.65,
           marginBottom: 14,
@@ -94,7 +94,7 @@ export function BusinessCard({ business }: { business: Business }) {
             display: "inline-flex",
             alignItems: "center",
             gap: 4,
-            fontSize: 11,
+            fontSize: 12,
             color: "var(--text-3)",
             fontFamily: "var(--font-mono-var)",
             padding: "2px 8px",

@@ -7,26 +7,30 @@ import "./globals.css"
 const notoSansThai = Noto_Sans_Thai({
   variable: "--font-thai",
   subsets: ["thai"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["400", "700", "800"],
   display: "swap",
+  preload: true,
 })
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["700", "800"],
   display: "swap",
+  preload: true,
 })
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-mono-var",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500"],
   display: "swap",
+  preload: false,
 })
 const notoNaskh = Noto_Naskh_Arabic({
   variable: "--font-arabic",
   subsets: ["arabic"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "700"],
   display: "swap",
+  preload: false,
 })
 
 export const metadata: Metadata = {
@@ -56,8 +60,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <nav style={{
           backgroundColor: "rgba(5, 14, 31, 0.80)",
           borderBottom: "1px solid var(--border)",
-          backdropFilter: "blur(20px) saturate(1.5)",
-          WebkitBackdropFilter: "blur(20px) saturate(1.5)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
           position: "sticky",
           top: 0,
           zIndex: 50,
